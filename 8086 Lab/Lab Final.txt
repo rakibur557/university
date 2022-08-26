@@ -1,0 +1,105 @@
+MySQL PATH         :    C:\xampp\mysql\bin
+ACCESS MySQL       :    mysql -u root -p -h 127.0.0.1
+
+Show Database      :	show databases;
+Create Database    :    create database DBNAME;
+Use Database       :	use DBNAME;
+Show Table         :    show tables;
+Table Describe     :    describe TBNAME;
+Show all Table Data:    select * from TBNAME;
+
+Create Table:
+create table student(roll int(7), cgpa float(6), name varchar(20), birth_date date); 	
+
+Insert Data:
+insert into student values(12, 3.67, ‘A. Rahim’, ‘1997-06-12’);
+
+					SELECT QUERY
+-------------------------------------------------------------------------
+SELECT * FROM STUDENT WHERE cgpa>3.75 and District=‘Dhaka’;
+SELECT Roll, Name FROM STUDENT WHERE cgpa=3.75 and District=‘Dhaka’;
+
+Update Value:
+update TBNAME set COLNAME = 'NEWVAL' where UNIQCOL = UNIQVAL;
+
+Row Delete:
+delete from TBNAME where COLNAME = 'VAL';
+
+Add Column:
+alter table TBNAME add column NEWCOL DTYPE(LENGTH);
+
+Delete Column:
+alter table TBNAME drop column COLNAME;
+
+Change Column:
+alter table TBNAME change OLDCOL NEWCOL DTYPE (MAX);
+
+					ORDER BY
+--------------------------------------------------------------------------
+Asscending:
+select COLTHATWANT from TBNAME order by DESIREDCOL limit NUMBER;
+
+Descending:
+select COLTHATWANT from TBNAME order by DESIREDCOL desc limit NUMBER;
+
+Load CSV File:
+load data infile 'PATH' replace into table TBNAME fields terminated by ',' lines terminated by '\n' (F1,F2,F3);
+
+					FUNCTIONS
+Average:
+select avg(cgpa) from TBNAME;
+
+Total Sum:
+select sum(MARK) from TBNAME where country = 'BD';
+
+MIN MAX:
+select min(CGPA) from TBNAME;
+select max(roll) from TBNAME;
+
+Count:
+select count(ROLL) from TBNAME where cgpa>3.5;
+
+Count Distinct:
+select count (distinct COUNTRY) from TBNAME; 
+
+Group By:
+select BATCH, avg(CGPA), Max(CGPA) from TBNAME group by BATCH;
+
+String Operation:
+select NAME from TBNAME where COLNAME like ‘%pur%’;
+
+All loan & Panthapath Branch:
+select customer_name from borrower,loan where borrower.loan_no = loan.loan_no and branch_name = 'panthapath';
+
+Name or loan or both:
+select customer_name from borrower union select customer_name from depositor;
+
+And thakle: select distinct
+select distinct customer_name from borrower where customer_name in (select customer_name from depositor);
+
+
+opening mysql: mysql -u root -p -h 127.0.0.1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 	 
