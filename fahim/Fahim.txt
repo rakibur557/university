@@ -1,0 +1,11 @@
+There are php slide, Lecture -3 slide on (payment method), javascript Dom and  javascript question pattern slide. Theory question will come from there.
+
+Final Exam Lecture-1 , there is php data insert way. ( I have provided old and new code) 
+JAVASCRIPT CALCULATOR. 
+JAVASCRIPT INPUT VALIDATION.  
+Javascript Dom.( in class, i have discussed) 
+For attack type question,  i will give you scenario. You have to tell which type of attack, it is. (SQL injection and DOS attack). 
+In php question,  i will give instruction saying  database name , table name, password   in the question. According to my instrution you have to write it.
+
+Javascript question, there will be  question  like which i give in the class test. 
+And there will be a  basic function logic question based on if else. If you fail to understand logic than you just write function,function name  and if else in the answer.
