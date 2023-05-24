@@ -1,0 +1,122 @@
+#include <dht.h>
+#include <LiquidCrystal.h>
+
+#include <ESP8266_Lib.h>
+#include <BlynkSimpleShieldEsp8266.h>
+
+#include <SoftwareSerial.h>
+
+int Contrast=10;
+int sensor_pin = A1; // Moisture Sensor input at Analog PIN 1
+int output_value ;  //moisture sensor value
+int output_value_p ; //moisture sensor value in percentage
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+const int analogInPin = A0; //water Sensor
+int sensorValue = 0; //related to Water sensor
+
+dht DHT;
+
+#define DHT11_PIN 8                                                                                                                                                               
+#define BLYNK_TEMPLATE_ID "TMPLdoWOZohC"
+#define BLYNK_TEMPLATE_NAME "Automated Smart Plant"
+#define BLYNK_AUTH_TOKEN  "fY1gMGKB45JR2QNlzOS3N4oXWP0RmhrS"
+#define BLYNK_PRINT Serial
+
+char ssid[] = "Darkion86";
+char pass[] = "darkionas@47";
+
+SoftwareSerial EspSerial(7, 9); // RX, TX
+
+#define ESP8266_BAUD 38400
+
+ESP8266 wifi(&EspSerial);
+
+void setup(){
+  analogWrite(6,Contrast);
+  lcd.begin(16, 2);
+  pinMode(LED_BUILTIN, OUTPUT);                 
+  pinMode(sensor_pin, INPUT);
+  pinMode(10, OUTPUT); // setting up the motor pin
+  digitalWrite(10, HIGH);
+  delay(1000);
+  //Serial.begin(9600);
+  Serial.begin(115200);
+
+  // Set ESP8266 baud rate
+  EspSerial.begin(ESP8266_BAUD);
+  delay(10);
+  Blynk.begin(BLYNK_AUTH_TOKEN, wifi, ssid, pass);
+}
+
+void loop(){
+  
+  digitalWrite(LED_BUILTIN, LOW); //That blinking LED was very annoying -.-
+  int chk = DHT.read11(DHT11_PIN);
+  
+  
+  //Temperature
+  
+  lcd.setCursor(0,0); 
+  
+  lcd.print("T:");
+  lcd.print(DHT.temperature);
+  lcd.print((char)223);
+  lcd.print("C");
+  delay(100);
+
+
+  //water level measurement
+  
+  sensorValue = analogRead(analogInPin);
+  if((sensorValue>=100)&&(sensorValue<=419)){
+    lcd.print(" W:Low ");
+    delay(100);
+  }
+  else if((sensorValue>=420)&&(sensorValue<=560)){
+    lcd.print(" W:Mid ");
+    delay(100);
+  }
+  else if((sensorValue>=570)&&(sensorValue<=1000)){
+    lcd.print(" W:Full");
+    delay(100);
+  }
+  else{
+    lcd.print(" W:null ");
+    delay(100);
+  }
+
+  //Humidity
+  
+  lcd.setCursor(0,1);
+  lcd.print("H:");    
+  lcd.print(DHT.humidity);
+  lcd.print("%");
+  delay(100);
+
+  //Moisture Output data
+  
+  output_value_p = map(output_value,550,10,0,100);
+  lcd.print("  M:");
+  lcd.print(output_value_p);
+  lcd.print("%  ");
+  delay(1000);
+
+  
+  //Pump On-off conditions
+  output_value = analogRead(sensor_pin);
+
+ //Serial.println(output_value);
+  
+  if (output_value_p < 30) {
+    digitalWrite(10, LOW);
+  } 
+
+  if (output_value_p < 0) {
+    digitalWrite(10, HIGH);
+  }
+  if (output_value_p > 65) {
+    digitalWrite(10,HIGH);
+  }  
+
+  Blynk.run();
+}
