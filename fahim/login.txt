@@ -1,0 +1,45 @@
+<?php
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname="db";
+
+// Create connection
+$conn = mysqli_connect($servername, $username, $password,$dbname);
+
+// Check connection
+if (!$conn) {
+  die("Connection failed: " . mysqli_connect_error());
+}
+
+
+/*print_r($conn);
+echo '<br/>';
+echo '<br/>';
+echo '<br/>';
+*/
+$email=$_POST['email'];
+$password=$_POST['password'];
+
+$sql = "SELECT * FROM registration where email='$email' and password='$password'";
+
+$result = mysqli_query($conn, $sql);
+
+if (!$result) {
+    die("Query failed: " . mysqli_error($conn));
+}
+
+print_r($result);
+echo '<br/>';
+
+$row=mysqli_fetch_assoc($result);
+
+print_r($row);
+echo '<br/>';
+echo '<br/>';
+echo '<br/>';
+
+echo $row['name']." ".$row['email'];
+
+mysqli_close($conn);
+?>
